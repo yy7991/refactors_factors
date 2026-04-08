@@ -1,0 +1,108 @@
+# 项目全局配置
+
+project:
+  name: "mt_futures_refactor"
+  version: "1.0.0"
+  description: "商品期货高频因子重构项目"
+
+# 数据目录配置
+data:
+  root: "./data"
+  cache_root: "./_portal_cache"
+  store_root: "./store"
+  
+  # Catalog 存储位置
+  meta_root: "./_meta"
+  
+  # 输出目录
+  output_root: "./output"
+  factor_output: "./output/factors"
+  label_output: "./output/labels"
+
+# 交易时间配置
+trading_calendar:
+  # 日盘时段
+  day_sessions:
+    - ["08:59:00", "10:15:00"]
+    - ["10:30:00", "11:30:00"]
+    - ["13:30:00", "15:00:00"]
+  
+  # 夜盘结束时间配置 (按品种)
+  night_end_times:
+    default: "02:30:00"
+    short: "23:00:00"  # rb, hc, bu, fu 等
+    medium: "01:00:00"  # al, cu, zn 等
+    long: "02:30:00"   # ag, au 等
+  
+  # 夜盘开始前的预处理时间
+  night_preopen: "20:59:00"
+
+# 主力合约配置
+main_contract:
+  # 默认主力判定规则
+  default_rule: "volume"  # volume, open_interest, turnover
+  
+  # 规则版本
+  rule_version: "v1"
+  
+  # 是否允许手工覆盖
+  allow_manual_override: true
+
+# 因子计算配置
+factors:
+  # 默认 Session 范围
+  default_session_scope: "all"
+  
+  # 默认数据级别
+  default_data_level: "tick"
+  
+  # 算子缓存策略
+  operator_cache:
+    enabled: true
+    cache_root: "./_portal_cache/operators"
+    
+  # 因子存储策略
+  storage:
+    format: "parquet"
+    mode: "overwrite"  # overwrite, append_columns
+
+# Bar 聚合配置
+bar:
+  # 预存的时间 bar 规格
+  prebuilt_time_bars:
+    - type: "time"
+      freq: "1s"
+    - type: "time"
+      freq: "3s"
+    - type: "time"
+      freq: "5s"
+  
+  # Volume bar 配置
+  volume_bar:
+    default_bars_per_day: 480
+    default_profile_days: 20
+    default_mode: "historical_profile"  # historical_profile, offline_quantile
+
+# 标签配置
+labels:
+  # 默认标签目标
+  default_target: "mid"
+  
+  # 收益预测周期 (秒)
+  horizons: [5, 10, 15, 30]
+  
+  # 标签版本
+  version: "v1"
+
+# 并行计算配置
+parallel:
+  # 默认 worker 数量
+  default_workers: 8
+  
+  # 每个 worker 处理的品种 - 日期对数量
+  batch_size: 1
+
+# 日志配置
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

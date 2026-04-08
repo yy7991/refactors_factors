@@ -1,0 +1,24 @@
+# 关联品种配置
+# 用于跨品种因子计算
+
+# 品种关联关系
+relations:
+  # RB (螺纹钢) 的关联品种
+  rb:
+    - hc  # 热卷
+    - fe  # 硅铁
+  
+  # HC (热卷) 的关联品种
+  hc:
+    - rb  # 螺纹钢
+    - fe  # 硅铁
+  
+  # FE (硅铁) 的关联品种
+  fe:
+    - rb  # 螺纹钢
+    - hc  # 热卷
+
+# 配置元数据
+metadata:
+  version: "v1"
+  description: "Cross-variety relationships for factor calculation"
